@@ -152,13 +152,13 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         segments.forEachIndexed { index, segment ->
             val drawingComponents = getDrawingComponents(segment, index)
             drawingComponents.first.forEachIndexed { drawingIndex, rectangle ->
-                canvas?.drawRoundRect(
+                canvas.drawRoundRect(
                     rectangle,
                     radius.toFloat(),
                     radius.toFloat(),
@@ -296,7 +296,7 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
     }
 
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        when (p1?.action){
+        when (p1?.action) {
             MotionEvent.ACTION_DOWN -> pause()
             MotionEvent.ACTION_UP -> start()
         }
