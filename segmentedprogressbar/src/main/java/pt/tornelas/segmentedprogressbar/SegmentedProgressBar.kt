@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -55,7 +56,7 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
     private val selectedSegmentIndex: Int
         get() = segments.indexOf(this.selectedSegment)
 
-    private val animationHandler = Handler()
+    private val animationHandler = Handler(Looper.getMainLooper())
     private val animationUpdateTime: Long
         get() = timePerSegmentMs / 100
 
@@ -251,7 +252,7 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
             } else if (offset < 0) {
                 if (index > nextSegmentIndex - 1) segment.animationState =
                     Segment.AnimationState.IDLE
-            } else if (offset == 0) {
+            } else {
                 if (index == nextSegmentIndex) segment.animationState = Segment.AnimationState.IDLE
             }
         }
@@ -279,7 +280,7 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
     }
 
     override fun run() {
-        if (this.selectedSegment?.progress() ?: 0 >= 100) {
+        if ((this.selectedSegment?.progress() ?: 0) >= 100) {
             loadSegment(offset = 1, userAction = false)
         } else {
             this.invalidate()
