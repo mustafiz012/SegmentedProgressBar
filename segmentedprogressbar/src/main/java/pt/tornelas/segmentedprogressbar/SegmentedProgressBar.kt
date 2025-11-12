@@ -46,9 +46,17 @@ class SegmentedProgressBar : View, Runnable, ViewPager.OnPageChangeListener, Vie
     var segmentSelectedStrokeColor: Int = Color.BLACK
         private set
 
+    /**
+     * Time in milliseconds for each segment to complete its animation.
+     * Changing this value will affect the animation speed for subsequent updates.
+     * Must be greater than 0.
+     */
     var timePerSegmentMs: Long =
         resources.getInteger(R.integer.default_time_per_segment_ms).toLong()
-        private set
+        set(value) {
+            require(value > 0) { "timePerSegmentMs must be greater than 0" }
+            field = value
+        }
 
     private var segments = mutableListOf<Segment>()
     private val selectedSegment: Segment?
