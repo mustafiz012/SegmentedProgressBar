@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 android {
     namespace 'pt.tornelas.segmentedprogressbar'
@@ -10,6 +11,13 @@ android {
         targetSdk 34
 
         consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 
     buildTypes {
@@ -32,4 +40,53 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation "androidx.viewpager2:viewpager2:1.1.0"
+}
+
+// Maven Publishing Configuration
+group = 'io.github.mustafiz012'
+version = '1.0.0'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'io.github.mustafiz012'
+                artifactId = 'segmentedprogressbar'
+                version = this.version
+
+                pom {
+                    name = 'SegmentedProgressBar'
+                    description = 'An Instagram-like stories segmented progress bar for Android'
+                    url = 'https://github.com/mustafiz012/SegmentedProgressBar'
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'mustafiz012'
+                            name = "Md. Mustafizur Rahman"
+                            email = "mustafiz012@outlook.com"
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:https://github.com/mustafiz012/SegmentedProgressBar.git'
+                        developerConnection = 'scm:git:https://github.com/mustafiz012/SegmentedProgressBar.git'
+                        url = 'https://github.com/mustafiz012/SegmentedProgressBar'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            mavenLocal()
+        }
+    }
 }
