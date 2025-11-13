@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.vanniktech.maven.publish' version '0.35.0'
+    id 'signing'
+}
 
 android {
     namespace 'pt.tornelas.segmentedprogressbar'
@@ -11,13 +14,6 @@ android {
         targetSdk 34
 
         consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
     }
 
     buildTypes {
@@ -42,51 +38,54 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.1.0"
 }
 
-// Maven Publishing Configuration
+// Maven Publishing Configuration using Vanniktech plugin
+// See: https://vanniktech.github.io/gradle-maven-publish-plugin/central/
 group = 'io.github.mustafiz012'
 version = '1.0.0'
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
+mavenPublishing {
+    // Configure coordinates
+    coordinates("io.github.mustafiz012", "segmentedprogressbar", version)
 
-                groupId = 'io.github.mustafiz012'
-                artifactId = 'segmentedprogressbar'
-                version = this.version
+    // Configure POM
+    pom {
+        name = "SegmentedProgressBar"
+        description = "An Instagram-like stories segmented progress bar for Android"
+        inceptionYear = "2025"
+        url = "https://github.com/mustafiz012/SegmentedProgressBar"
 
-                pom {
-                    name = 'SegmentedProgressBar'
-                    description = 'An Instagram-like stories segmented progress bar for Android'
-                    url = 'https://github.com/mustafiz012/SegmentedProgressBar'
-
-                    licenses {
-                        license {
-                            name = 'MIT License'
-                            url = 'https://opensource.org/licenses/MIT'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id = 'mustafiz012'
-                            name = "Md. Mustafizur Rahman"
-                            email = "mustafiz012@outlook.com"
-                        }
-                    }
-
-                    scm {
-                        connection = 'scm:git:https://github.com/mustafiz012/SegmentedProgressBar.git'
-                        developerConnection = 'scm:git:https://github.com/mustafiz012/SegmentedProgressBar.git'
-                        url = 'https://github.com/mustafiz012/SegmentedProgressBar'
-                    }
-                }
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+                distribution = "https://opensource.org/licenses/MIT"
             }
         }
 
-        repositories {
-            mavenLocal()
+        developers {
+            developer {
+                id = "mustafiz012"
+                name = "Md. Mustafizur Rahman"
+                email = "mustafiz012@outlook.com"
+                url = "https://github.com/mustafiz012"
+            }
+        }
+
+        scm {
+            url = "https://github.com/mustafiz012/SegmentedProgressBar"
+            connection = "scm:git:git://github.com/mustafiz012/SegmentedProgressBar.git"
+            developerConnection = "scm:git:ssh://git@github.com/mustafiz012/SegmentedProgressBar.git"
         }
     }
+
+    // Enable Maven Central publishing
+    publishToMavenCentral()
+
+    // Enable GPG signing (required for Maven Central)
+    signAllPublications()
+}
+
+// Configure GPG signing for the plugin
+signing {
+    useGpgCmd()
 }
