@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import kotlinx.android.synthetic.main.fragment_page.*
-import pt.tornelas.segmentedprogressbar.R
+import pt.tornelas.segmentedprogressbar.app.R
 
 private const val PAGE_INDEX = "PAGE_INDEX"
 
@@ -29,6 +30,8 @@ class PageFragment : Fragment(), RequestListener<Drawable> {
     }
 
     private var pageIndex: Int = 0
+    private lateinit var progressBar: ProgressBar
+    private lateinit var image: AppCompatImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +40,18 @@ class PageFragment : Fragment(), RequestListener<Drawable> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_page, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressBar = view.findViewById(R.id.progressBar)
+        image = view.findViewById(R.id.image)
 
         progressBar.visibility = View.VISIBLE
         val aleatoryIndex = (1..50).random()
@@ -58,17 +65,17 @@ class PageFragment : Fragment(), RequestListener<Drawable> {
     override fun onLoadFailed(
         e: GlideException?,
         model: Any?,
-        target: Target<Drawable>?,
+        target: Target<Drawable>,
         isFirstResource: Boolean
     ): Boolean {
         return true
     }
 
     override fun onResourceReady(
-        resource: Drawable?,
-        model: Any?,
-        target: Target<Drawable>?,
-        dataSource: DataSource?,
+        resource: Drawable,
+        model: Any,
+        target: Target<Drawable>,
+        dataSource: DataSource,
         isFirstResource: Boolean
     ): Boolean {
         progressBar.visibility = View.GONE
