@@ -1,33 +1,25 @@
 # SegmentedProgressBar
 
-An Instagram-like stories segmented progress bar
+An Instagram-like stories segmented progress bar for Android
 
-[![](https://jitpack.io/v/TOrnelas/SegmentedProgressBar.svg)](https://jitpack.io/#TOrnelas/SegmentedProgressBar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.mustafiz012/segmentedprogressbar)](https://search.maven.org/artifact/io.github.mustafiz012/segmentedprogressbar)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SegmentedProgressBar-green.svg?style=flat )]( https://android-arsenal.com/details/1/8229 )
 
 ![screen-20210306-002812_2 (3)](https://user-images.githubusercontent.com/17816841/110188846-0a784800-7e15-11eb-85c2-897e572173c2.gif)
 
-
 ## Setup
 
-Add Jitpack repository to your project level `build.gradle`
+Add SegmentedProgressBar to your app's `build.gradle` dependencies:
 
-```
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-Add SegmentedProgressBar to your app's `build.gradle` dependencies
-
-```
+```gradle
 dependencies {
-    implementation 'com.github.TOrnelas:SegmentedProgressBar:{latest-version}'
+    implementation 'io.github.mustafiz012:segmentedprogressbar:1.0.0'
 }
 ```
-Find all versions available [here](https://github.com/TOrnelas/SegmentedProgressBar/releases)
+
+**Note:** Maven Central is automatically included in Gradle projects, so no additional repository configuration is needed.
+
+Find all versions available on [Maven Central](https://search.maven.org/artifact/io.github.mustafiz012/segmentedprogressbar)
 
 ## Usage
 
@@ -121,12 +113,36 @@ spb.listener = object : SegmentedProgressBarListener {
 }
 ```
 
-Feel free to checkout the [sample](https://github.com/TOrnelas/SegmentedProgressBar/tree/master/app) on this repository
+## Features
+
+- Instagram-like segmented progress bar animation
+- Sync with ViewPager2 for automatic page transitions
+- Pause/resume on touch interaction
+- Customizable segment appearance (colors, stroke, corner radius, margins)
+- Programmatic control (start, pause, reset, next, previous, skip, setPosition)
+- Listener callbacks for page changes and completion events
+- Configurable animation duration per segment
+
+## Additional Configuration
+
+You can also configure the animation duration programmatically:
+
+```kotlin
+val spb = findViewById<SegmentedProgressBar>(R.id.spb)
+spb.timePerSegmentMs = 3000L // Set animation duration to 3 seconds per segment
+```
+
+**Note:** The `timePerSegmentMs` property must be greater than 0.
+
+Feel free to checkout the [sample](https://github.com/mustafiz012/SegmentedProgressBar/tree/master/app) on this repository
+
+## License
 
 ```
 MIT License
 
 Copyright (c) 2020 Tiago Ornelas
+Copyright (c) 2025 Md. Mustafizur Rahman (Fork & Updates)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
